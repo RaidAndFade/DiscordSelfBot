@@ -1,11 +1,11 @@
 # DiscordSelfBot
 ===================================
 ### What is DiscordSelfBot? :
-    Discord Selfbot is a project that was suggested to me by a friend. The point of this project is to have an automated bot on the same account as yours on the communication platform called ["Discord"](https://discordapp.com/).
+ Discord Selfbot is a project that was suggested to me by a friend. The point of this project is to have an automated bot on the same account as yours on the communication platform called ["Discord"](https://discordapp.com/).
 ===================================
 ### Todo : 
-    Todo can be found in a comment at the top of the main files in my projects. In this case it is selfbot.js
-    Certain files may also have their own TODO lists at the top of the file.
+ Todo can be found in a comment at the top of the main files in my projects. In this case it is selfbot.js
+ Certain files may also have their own TODO lists at the top of the file.
 ===================================
 ### How to use : 
 1. Make a file called UserPass.js in the same directory as Selfbot.js
