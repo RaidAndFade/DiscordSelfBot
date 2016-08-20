@@ -92,6 +92,8 @@ utils={
 			any		: combinate.any,
 			all		: combinate.all,
 			eof		: combinate.eof,
+			word		: combinate.regexp(/\S+/),
+			phrase          : combinate.regexp(/\"(\\.|[^\"])*\"/).or(combinate.regexp(/\S+/)),
 			user		: combinate.regexp(/<@!?[0-9]+>/),
 			channel		: combinate.regexp(/<#[0-9]+>/),
 			snippet		: combinate.regexp(/```\S+\n(.*?)```/)
@@ -182,7 +184,7 @@ bot.on('message', function(user, channelId, message, rawEvent) {
 				console.log(run+" : "+comd+"/"+comk);
 				if(run){
 					if(coms[comk].parse){
-						coms[comk].run(utils,coms[comk].parse.parse(args.join(" ")),user,channelId,rawEvent.d);
+						coms[comk].run(utils,coms[comk].parse.parse(args.join(" ")).value,user,channelId,rawEvent.d);
 					}else{
 						coms[comk].run(utils,args,user,channelId,rawEvent.d);
 					}
@@ -216,7 +218,7 @@ bot.on('messageud', function(messageId,user,channelId,message,rawEvent){
 				console.log(run+" : "+comd+"/"+comk);
 				if(run){
 					if(coms[comk].parse){
-						coms[comk].run(utils.coms[comk].parse.parse(args.join(" ")),users,channelId,rawEvent.d);
+						coms[comk].run(utils.coms[comk].parse.parse(args.join(" ")).value,users,channelId,rawEvent.d);
 					}else{
 						coms[comk].run(utils,args,user,channelId,rawEvent.d);
 					}
