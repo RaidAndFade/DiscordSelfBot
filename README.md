@@ -1,14 +1,14 @@
 # DiscordSelfBot
 ===================================
 ### What is DiscordSelfBot?:
- Discord Selfbot is a project that was suggested to me by a friend. The point of this project is to have an automated bot on the same account as yours on the communication platform called ["Discord"](https://discordapp.com/).
+###### Discord Selfbot is a project that was suggested to me by a friend. The point of this project is to have an automated bot on the same account as yours on the communication platform called ["Discord"](https://discordapp.com/).
 ===================================
 ### Todo: 
- Todo can be found in a comment at the top of the main files in my projects. In this case it is selfbot.js
- Certain files may also have their own TODO lists at the top of the file.
+###### Todo can be found in a comment at the top of the main files in my projects. In this case it is selfbot.js.
+###### Certain files may also have their own TODO lists at the top of the file.
 ===================================
 ### How to use:
-1. Make a file called UserPass.js in the same directory as Selfbot.js
+1. Make a file called `UserPass.js` in the same directory as `Selfbot.js`
 
 	```javascript 
 	var DiscordClient = require('./discord.io.js');
@@ -25,5 +25,11 @@
 
 	MYSQL and Twitter are only required for some modules.
 	If you don't have a Twitter api account or a MYSQL database set the variable to null and the associated modules will simply shutdown on load.
+2. Make sure you have nodejs installed...
 
-2. Run the file.
+	Install it from [here](https://nodejs.org/en/) if you haven't already.
+3. Run the file.
+
+	```
+	node Selfbot.js
+	```
