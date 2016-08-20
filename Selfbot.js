@@ -1,9 +1,10 @@
+
 const DiscordClient = require('./discord.io.js');
 const bot = require("./UserPass.js").bot;//Dont open this file while streaming you dumbo.
 const Twitter = require("./UserPass.js").twitter;
 const mysql = require("./UserPass.js").mysql;
 const fs = require('fs');
-const combinate = require("Parsimmon");
+const combinate = require("parsimmon");
 const request = require('request');
 //var youtubedl = require('youtube-dl');
 const querystring = require('querystring');
@@ -49,6 +50,7 @@ function reloadModule(file){
 	setTimeout(()=>{
 		Modules[file]=reload("./Modules/"+file);
 		Modules[file].emit("load",utils);
+		Modules[file].utils=utils;
 		pad2 = new Array(40-file.length).join(" ");
 		console.log("= RELOADED "+file+pad2+"=");
 		Reloading.shift(Reloading.indexOf(file),1);
@@ -59,6 +61,7 @@ function loadModule(file){
 	console.log("= LOADING "+file+pad1+"=");
 	Modules[file]=require("./Modules/"+file);
 	Modules[file].emit("load",utils);
+	Modules[file].utils=utils;
 	pad2 = new Array(42-Modules[file].name.length).join(" ");
 	console.log("= LOADED "+Modules[file].name+pad2+"=");
 }
@@ -78,6 +81,22 @@ utils={
 	bot:bot,
 	mods:Modules,
 	init:comInitiator,
+	combinate:{
+		self	:combinate,
+		vars	:{
+			letter 		: combinate.letter,
+			letters 	: combinate.letters,
+			digit		: combinate.digit,
+			digits		: combinate.digits,
+			space		: combinate.whitespace,
+			any		: combinate.any,
+			all		: combinate.all,
+			eof		: combinate.eof,
+			user		: combinate.regexp(/<@!?[0-9]+>/),
+			channel		: combinate.regexp(/<#[0-9]+>/),
+			snippet		: combinate.regexp(/```\S+\n(.*?)```/)
+		}
+	},
 	sendMSG:(to,msg,del)=>{
 		msg = msg.substr(0,2000); 
 		del=typeof del!=='undefined'?del:[true,30000];
@@ -162,7 +181,11 @@ bot.on('message', function(user, channelId, message, rawEvent) {
 				}
 				console.log(run+" : "+comd+"/"+comk);
 				if(run){
-					coms[comk].run(utils,args,user,channelId,rawEvent.d);
+					if(coms[comk].parse){
+						coms[comk].run(utils,coms[comk].parse.parse(args.join(" ")),user,channelId,rawEvent.d);
+					}else{
+						coms[comk].run(utils,args,user,channelId,rawEvent.d);
+					}
 				}
 			}
 		}
@@ -192,7 +215,11 @@ bot.on('messageud', function(messageId,user,channelId,message,rawEvent){
 				}
 				console.log(run+" : "+comd+"/"+comk);
 				if(run){
-					coms[comk].run(utils,args,user,channelId,rawEvent.d);
+					if(coms[comk].parse){
+						coms[comk].run(utils.coms[comk].parse.parse(args.join(" ")),users,channelId,rawEvent.d);
+					}else{
+						coms[comk].run(utils,args,user,channelId,rawEvent.d);
+					}
 				}
 			}
 		}

@@ -1,3 +1,4 @@
+
 const EventEmitter = require('events');
 class EE extends EventEmitter{}
 const test = new EE();
@@ -14,10 +15,12 @@ test.on("load",(p)=>{
 test.commands = {
 	test: {
 		aliases: ["tst"],
+		parse: utils.combinate.self.seq(utils.combinate.vars.letter,utils.combinate.vars.all),	
 		usage: "test",
 		desc: "This command is a test command",
 		run: (p, args, user, channel, event) => {
-			p.reply(event, user.tag+" you said "+args.join(" "))
+			p.reply(event, JSON.stringify(args));
+			//p.reply(event, user.tag+" you said "+args.join(" "))
 		}
 	}
 }
