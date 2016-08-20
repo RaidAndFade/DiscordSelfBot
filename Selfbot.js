@@ -92,6 +92,8 @@ utils={
 			any		: combinate.any,
 			all		: combinate.all,
 			eof		: combinate.eof,
+			word		: combinate.regexp(/\S+/),
+			phrase          : combinate.regexp(/\"(\\.|[^\"])*\"/).or(combinate.regexp(/\S+/)),
 			user		: combinate.regexp(/<@!?[0-9]+>/),
 			channel		: combinate.regexp(/<#[0-9]+>/),
 			snippet		: combinate.regexp(/```\S+\n(.*?)```/)
