@@ -47,10 +47,12 @@ weather.commands = {
 		  	weatherjs.find({search: args[0], degreeType: args[1].toUpperCase()}, function(err, result) {
 				if(err) console.log(err);
 				text = "```py\nCurrent weather in '"+result[0].location.name+"'\n"+
-					"Right now it is: "+result[0].current.temperature+"°"+result[0].location.degreetype+
-					"Though, it feels like: "+result[0].current.feelslike+"°"+result[0].location.degreetype+
-					"Humidity: "+result[0].current.humidity+"% | Wind Speed: "+result[0].current.windspeed;//make windspeed into km/h somehow.
+					"Right now it is: "+result[0].current.temperature+"°"+result[0].location.degreetype+"\n"+
+					"Though, it feels like: "+result[0].current.feelslike+"°"+result[0].location.degreetype+"\n"+
+					"Humidity: "+result[0].current.humidity+"% | Wind Speed: "+result[0].current.windspeed+"\n";
 				today = result[0].forecast[0];
+				text +="Today is forecasted to be '"+today.skytextday+"' with a low of "+today.low+"°"+result[0].location.degreetype+" and a high of "+today.high+"°"+result[0].location.degreetype+"\n";
+				text +="```";
 				utils.reply(event,text);
 			});
 		}
