@@ -44,17 +44,17 @@ function reloadModule(file){
 		if(m==file)return;
 	}
 	Reloading.push(file);
-	pad1 = new Array(39-file.length).join(" ");
-	console.log("= RELOADING "+file+pad1+"=");
-	Modules[file].emit("unload",utils);
 	setTimeout(()=>{
+		Reloading.shift(Reloading.indexOf(file),1);
 		Modules[file]=reload("./Modules/"+file);
 		Modules[file].emit("load",utils);
 		Modules[file].utils=utils;
 		pad2 = new Array(40-file.length).join(" ");
 		console.log("= RELOADED "+file+pad2+"=");
-		Reloading.shift(Reloading.indexOf(file),1);
 	},2000);
+	pad1 = new Array(39-file.length).join(" ");
+	console.log("= RELOADING "+file+pad1+"=");
+	Modules[file].emit("unload",utils);
 }
 function loadModule(file){
 	pad1 = new Array(41-file.length).join(" ");
@@ -82,23 +82,21 @@ utils={
 	mods:Modules,
 	init:comInitiator,
 	combinate:{
-		self	:combinate,
-		vars	:{
-			letter 		: combinate.letter,
-			letters 	: combinate.letters,
-			digit		: combinate.digit,
-			digits		: combinate.digits,
-			space		: combinate.whitespace,
-			any		: combinate.any,
-			all		: combinate.all,
-			eof		: combinate.eof,
-			word		: combinate.regexp(/\S+/),
-			phrase          : combinate.regexp(/\"(\\.|[^\"])*\"/).or(combinate.regexp(/\S+/)),
-			user		: combinate.regexp(/<@!?[0-9]+>/),
-			channel		: combinate.regexp(/<#[0-9]+>/),
-			snippet		: combinate.regexp(/```\S+\n(.*?)```/)
-		}
+		letter 		: combinate.letter,
+		letters 	: combinate.letters,
+		digit		: combinate.digit,
+		digits		: combinate.digits,
+		space		: combinate.whitespace,
+		any			: combinate.any,
+		all			: combinate.all,
+		eof			: combinate.eof,
+		word		: combinate.regexp(/\S+/),
+		phrase      : combinate.regexp(/\"(\\.|[^\"])*\"/).or(combinate.regexp(/\S+/)),
+		user		: combinate.regexp(/<@!?[0-9]+>/),
+		channel		: combinate.regexp(/<#[0-9]+>/),
+		snippet		: combinate.regexp(/```\S+\n(.*?)```/)
 	},
+	combinator: combinate,
 	sendMSG:(to,msg,del)=>{
 		msg = msg.substr(0,2000); 
 		del=typeof del!=='undefined'?del:[true,30000];
@@ -152,6 +150,13 @@ utils={
 			channel: channelID,
 			messageID: id
 		});
+	},
+	pad:(msg,length,filler=" ")=>{
+		length=length-msg.length;
+		while(length-->0){
+			msg+=filler;
+		}
+		return msg;
 	}
 }
 /******************** EVENTS **********************/
@@ -184,6 +189,7 @@ bot.on('message', function(user, channelId, message, rawEvent) {
 				console.log(run+" : "+comd+"/"+comk);
 				if(run){
 					if(coms[comk].parse){
+						if(coms[comk].parse.parse(args.join(" ")).status==false){console.log(coms[comk].parse.parse(args.join(" ")));return;}
 						coms[comk].run(utils,coms[comk].parse.parse(args.join(" ")).value,user,channelId,rawEvent.d);
 					}else{
 						coms[comk].run(utils,args,user,channelId,rawEvent.d);
@@ -218,6 +224,7 @@ bot.on('messageud', function(messageId,user,channelId,message,rawEvent){
 				console.log(run+" : "+comd+"/"+comk);
 				if(run){
 					if(coms[comk].parse){
+						if(coms[comk].parse.parse(args.join(" ")).status==false){console.log(coms[comk].parse.parse(args.join(" ")));return;}
 						coms[comk].run(utils.coms[comk].parse.parse(args.join(" ")).value,users,channelId,rawEvent.d);
 					}else{
 						coms[comk].run(utils,args,user,channelId,rawEvent.d);

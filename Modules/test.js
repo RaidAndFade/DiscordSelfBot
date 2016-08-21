@@ -15,7 +15,7 @@ test.on("load",(p)=>{
 test.commands = {
 	test: {
 		aliases: ["tst"],
-		parse: utils.combinate.self.seq(utils.combinate.vars.letter,utils.combinate.vars.all),	
+		parse: utils.combinator.seq(utils.combinate.letter,utils.combinate.all),	
 		usage: "test",
 		desc: "This command is a test command",
 		run: (p, args, user, channel, event) => {
@@ -23,6 +23,6 @@ test.commands = {
 			//p.reply(event, user.tag+" you said "+args.join(" "))
 		}
 	}
-}
+} 
 
 module.exports=test;
