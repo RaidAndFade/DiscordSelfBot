@@ -1,0 +1,28 @@
+const EventEmitter = require('events');
+class EE extends EventEmitter{}
+const module = new EE();
+module.name="My Module";
+
+var persistentVar="";
+module.on("load",(p,data)=>{
+	if(data.persistentVar)persistentVar=data.persistentVar;
+	console.log("Module loaded!");
+});
+module.on("unload",(p,data)=>{
+	data.persistentVar=persistentVar;
+	console.log("Module unloaded!");
+});
+
+module.commands = {
+	command:{
+		aliases: ["cmd"],
+		allowed: (p,user,args,event,helpReq) => {
+			return true;
+		}, 
+		usage: "cmd <arg>",
+		desc: "This is an example command",
+		run: (p, args, user, channel, event) => {
+		}
+	}
+};
+module.exports=module
